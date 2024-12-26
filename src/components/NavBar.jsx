@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ShoppingBasket } from "lucide-react";
 
 const Navbar = () => {
+  let itemsInCart = 0;
   return (
     <nav className="flex  bg-transparent justify-center items-center w-full p-2">
       <div className="w-11/12 md:w-3/4 lg:w-1/2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border-2 border-gray-300 shadow-lg">
@@ -33,6 +34,7 @@ const Navbar = () => {
                 size={20}
                 className="md:w-5 md:h-5"
               />
+              {itemsInCart}
             </Link>
           </li>
         </ul>

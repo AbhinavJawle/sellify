@@ -1,3 +1,5 @@
+import ProductCards from "../components/ProductCards";
+
 export default function Shop() {
-  return <h1>Shop</h1>;
+  return <ProductCards />;
 }

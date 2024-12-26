@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 const ProductCards = ({ onAddCart }) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [cartProducts, setCartProducts] = useState([]);
 
   const fetchProductCards = async () => {
     try {
@@ -22,7 +23,6 @@ const ProductCards = ({ onAddCart }) => {
           { mode: "cors" }
         );
         const data = await response.json();
-        console.log(response);
         return {
           id: data.id,
           title: data.title,
@@ -35,7 +35,6 @@ const ProductCards = ({ onAddCart }) => {
       setProducts(fetchedProducts);
     } catch (error) {
       console.error("Error fetching products:", error);
-      //console.error("Error response:", await response.text()); // Log the actual response text
     } finally {
       setLoading(false);
     }
@@ -45,6 +44,36 @@ const ProductCards = ({ onAddCart }) => {
     fetchProductCards();
   }, []);
 
+  const setCurrentInputValue = (productID, value) => {
+    // console.log(productID, value);
+    //return [productID, value];
+  };
+  const addToCart = (product) => {
+    // Get the quantity from the input field
+    const quantityElement = document.getElementById(`quantity-${product.id}`);
+    const quantity = parseInt(quantityElement.value) || 1; // Ensure quantity is a number (defaults to 1)
+
+    // Check if the product already exists in the cart
+    const existingProduct = cartProducts.find((item) => item.id === product.id);
+
+    if (existingProduct) {
+      // Update the quantity for existing product
+      setCartProducts(
+        cartProducts.map((item) =>
+          item.id === product.id ? { ...item, quantity: quantity } : item
+        )
+      );
+    } else {
+      // Add the product to the cart with the specified quantity
+      setCartProducts([...cartProducts, { ...product, quantity }]);
+      console.log("cartpodect" + cartProducts);
+    }
+
+    // Call the external onAddCart function if provided
+    if (onAddCart) {
+      onAddCart({ ...product, quantity });
+    }
+  };
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -70,13 +99,31 @@ const ProductCards = ({ onAddCart }) => {
               {product.title}
             </h3>
             <p className="text-gray-600">${product.price.toFixed(2)}</p>
+            <div className="flex items-center justify-between mt-2 mb-3">
+              <label
+                htmlFor={`quantity-${product.id}`}
+                className="text-sm text-gray-500"
+              >
+                Qty:
+              </label>
+              <input
+                type="number"
+                id={`quantity-${product.id}`}
+                defaultValue={1}
+                min="1"
+                className="w-16 rounded border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-center transition-all duration-200 hover:bg-gray-100"
+                onChange={(event) =>
+                  setCurrentInputValue(product.id, event.target.value)
+                }
+              />
+            </div>
             <button
-              onClick={() => onAddCart(product)}
-              className="mt-3 w-full bg-gradient-to-r from-blue-50 to-purple-50 
-             border-2 border-gray-300 shadow-lg text-black font-bold py-2 px-4 rounded 
-             transition-colors duration-200 
-             hover:bg-gradient-to-r hover:from-blue-200 hover:to-purple-200 
-             hover:shadow-xl"
+              onClick={addToCart(product)}
+              className="mt-3 w-full bg-gradient-to-r from-blue-50 to-purple-50
+                  border-2 border-gray-300 shadow-lg text-black font-bold py-2 px-4 rounded
+                  transition-colors duration-200
+                  hover:bg-gradient-to-r hover:from-blue-200 hover:to-purple-200
+                  hover:shadow-xl"
             >
               Add to Cart
             </button>
