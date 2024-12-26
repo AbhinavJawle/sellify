@@ -1,5 +1,10 @@
+import { useOutletContext } from "react-router-dom";
 import ProductCards from "../components/ProductCards";
 
-export default function Shop() {
-  return <ProductCards />;
-}
+const Shop = () => {
+  const { addToCart } = useOutletContext();
+
+  return <ProductCards onAddToCart={addToCart} />;
+};
+
+export default Shop;

@@ -1,17 +1,15 @@
-import { Heading1 } from "lucide-react";
 import { useState, useEffect } from "react";
 
-const ProductCards = ({ onAddCart }) => {
+const ProductCards = ({ onAddToCart }) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [cartProducts, setCartProducts] = useState([]);
 
   const fetchProductCards = async () => {
     try {
       setLoading(true);
       const productIDs = [];
       while (productIDs.length < 20) {
-        const randomProductID = Math.floor(Math.random() * 20) + 1; // Fixed the random number generation
+        const randomProductID = Math.floor(Math.random() * 20) + 1;
         if (!productIDs.includes(randomProductID)) {
           productIDs.push(randomProductID);
         }
@@ -44,36 +42,14 @@ const ProductCards = ({ onAddCart }) => {
     fetchProductCards();
   }, []);
 
-  const setCurrentInputValue = (productID, value) => {
-    // console.log(productID, value);
-    //return [productID, value];
-  };
-  const addToCart = (product) => {
-    // Get the quantity from the input field
+  const handleAddToCart = (product) => {
     const quantityElement = document.getElementById(`quantity-${product.id}`);
-    const quantity = parseInt(quantityElement.value) || 1; // Ensure quantity is a number (defaults to 1)
-
-    // Check if the product already exists in the cart
-    const existingProduct = cartProducts.find((item) => item.id === product.id);
-
-    if (existingProduct) {
-      // Update the quantity for existing product
-      setCartProducts(
-        cartProducts.map((item) =>
-          item.id === product.id ? { ...item, quantity: quantity } : item
-        )
-      );
-    } else {
-      // Add the product to the cart with the specified quantity
-      setCartProducts([...cartProducts, { ...product, quantity }]);
-      console.log("cartpodect" + cartProducts);
-    }
-
-    // Call the external onAddCart function if provided
-    if (onAddCart) {
-      onAddCart({ ...product, quantity });
-    }
+    const quantity = parseInt(quantityElement.value) || 1;
+    onAddToCart(product, quantity);
+    // Optional: Reset quantity input to 1 after adding to cart
+    quantityElement.value = "1";
   };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -92,7 +68,7 @@ const ProductCards = ({ onAddCart }) => {
           <img
             src={product.image}
             alt={product.title}
-            className="w-full max-h-40 object-contain "
+            className="w-full h-48 object-contain p-4"
           />
           <div className="p-4">
             <h3 className="text-xl font-semibold mb-2 truncate">
@@ -112,13 +88,10 @@ const ProductCards = ({ onAddCart }) => {
                 defaultValue={1}
                 min="1"
                 className="w-16 rounded border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-center transition-all duration-200 hover:bg-gray-100"
-                onChange={(event) =>
-                  setCurrentInputValue(product.id, event.target.value)
-                }
               />
             </div>
             <button
-              onClick={addToCart(product)}
+              onClick={() => handleAddToCart(product)}
               className="mt-3 w-full bg-gradient-to-r from-blue-50 to-purple-50
                   border-2 border-gray-300 shadow-lg text-black font-bold py-2 px-4 rounded
                   transition-colors duration-200
