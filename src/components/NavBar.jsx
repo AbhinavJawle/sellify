@@ -3,7 +3,7 @@ import { ShoppingBasket } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-center items-center w-full p-2">
+    <nav className="flex  bg-transparent justify-center items-center w-full p-2">
       <div className="w-11/12 md:w-3/4 lg:w-1/2 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full border-2 border-gray-300 shadow-lg">
         <ul className="flex justify-center items-center space-x-3 md:space-x-8 py-3 px-4 font-sans">
           <li>
