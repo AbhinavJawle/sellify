@@ -27,7 +27,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-blue-50">
       {/* Hero Section */}
-      <div className="bg-violet-600 text-white py-12 px-4 my-8">
+      <div
+        className="bg-gradient-to-r from-blue-200 to-purple-200
+ text-white py-12 px-4 my-8"
+      >
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
           <h1 className="text-4xl font-bold mb-4">Welcome to Sellify</h1>
           <p className="text-xl mb-6">Your One-Stop Global B2C Marketplace</p>
