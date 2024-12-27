@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import LoadingSpinner from "./LoadingSpinner";
 const ProductCards = ({ onAddToCart }) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
@@ -50,12 +50,16 @@ const ProductCards = ({ onAddToCart }) => {
     quantityElement.value = "1";
   };
 
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <div className="loading-spinner">...Loading</div>
+  //     </div>
+  //   );
+  // }
+
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="loading-spinner">...Loading</div>
-      </div>
-    );
+    return <LoadingSpinner loading={loading} />;
   }
 
   return (
