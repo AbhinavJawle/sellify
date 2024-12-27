@@ -41,6 +41,7 @@ function App() {
   return (
     <>
       <Navbar totalItems={getTotalItems()} />
+      {/* context makes all the variables available to children */}
       <Outlet
         context={{
           cartItems,

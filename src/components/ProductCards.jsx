@@ -46,7 +46,7 @@ const ProductCards = ({ onAddToCart }) => {
     const quantityElement = document.getElementById(`quantity-${product.id}`);
     const quantity = parseInt(quantityElement.value) || 1;
     onAddToCart(product, quantity);
-    // Optional: Reset quantity input to 1 after adding to cart
+    //default is one
     quantityElement.value = "1";
   };
 
